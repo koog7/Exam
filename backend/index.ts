@@ -1,12 +1,13 @@
 import express from 'express'
 import mongoose from "mongoose";
+import UserRouter from "./routes/UserRouters";
 
 const app = express()
 const port = 8000;
 
 app.use(express.json())
 app.use(express.static('public'))
-
+app.use('/users' , UserRouter)
 const run = async () => {
     try {
         await mongoose.connect('mongodb://127.0.0.1:27017/Exam');
