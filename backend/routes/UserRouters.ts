@@ -58,7 +58,7 @@ UserRouter.post('/sessions' , async (req , res , next) => {
     }
 })
 
-ForumUserRouter.delete('/sessions', async (req, res, next) => {
+UserRouter.delete('/sessions', async (req, res, next) => {
     try {
         const getToken = req.get('Authorization');
         const success = {message: 'Success'};
