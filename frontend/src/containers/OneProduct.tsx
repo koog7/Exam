@@ -1,12 +1,12 @@
 import React, {useEffect} from 'react';
-import {Card, CardContent, CardMedia, Typography} from "@mui/material";
+import {Button, Card, CardContent, CardMedia, Typography} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "../app/store.ts";
 import {useParams} from "react-router-dom";
 import {getOnePost} from "./Thunk/ProductSlice.ts";
 
 const OneProduct = () => {
-
+    const userData = useSelector((state: RootState) => state.User.user)
     const productData = useSelector((state: RootState) => state.Product.oneProduct)
     const dispatch = useDispatch<AppDispatch>();
     const {id} = useParams();
@@ -14,6 +14,8 @@ const OneProduct = () => {
     useEffect(() => {
         dispatch(getOnePost(id))
     }, [dispatch , id]);
+
+    const isOwner = userData && productData && productData.userId && userData._id === productData.userId._id;
 
     return (
         <div>
@@ -45,6 +47,11 @@ const OneProduct = () => {
                             <Typography variant="body2" color="text.secondary">
                                 Contact: {productData.userId?.phoneNumber}
                             </Typography>
+
+                            {isOwner ? (
+                                <Button variant="contained">Delete post</Button>
+                            ) : <></>}
+
                         </CardContent>
                     </Card>
                 </div>

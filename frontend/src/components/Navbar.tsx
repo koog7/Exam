@@ -1,6 +1,6 @@
 import React from 'react';
 import {AppBar, Button, IconButton, Toolbar, Typography} from "@mui/material";
-import {NavLink} from "react-router-dom";
+import {NavLink, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../app/store.ts";
 import {logout} from "../containers/Thunk/AuthSlice.ts";
@@ -9,10 +9,11 @@ const Navbar = () => {
 
     const userData = useSelector((state: RootState) => state.User.user)
     const dispatch = useDispatch();
-
+    const navigate = useNavigate();
     const logOut = async () => {
         if(userData){
             await dispatch(logout(userData.token))
+            navigate('/')
             localStorage.removeItem("persist:exam:User");
             location.reload()
         }
