@@ -8,7 +8,7 @@ interface Product{
     title: string,
     category: string,
     description: string,
-    price: string,
+    price: number,
     image: string,
 }
 
@@ -22,7 +22,7 @@ interface OneProduct{
     title: string,
     category: string,
     description: string,
-    price: string,
+    price: number,
     image: string,
 }
 

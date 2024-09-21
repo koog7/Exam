@@ -105,7 +105,7 @@ ProductRouter.post('/', imagesUpload.single('image') ,async (req , res , next ) 
             userId: UserData._id,
             title: req.body.title,
             description: req.body.description,
-            price:req.body.price,
+            price: parseInt(req.body.price),
             image: req.file?.filename,
             category: req.body.category,
         })
