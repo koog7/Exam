@@ -10,6 +10,7 @@ import {AppDispatch} from "./app/store.ts";
 import {useEffect} from "react";
 import {getPost} from "./containers/Thunk/ProductSlice.ts";
 import ProductCreate from "./containers/ProductCreate.tsx";
+import CategoryPage from "./containers/CategoryPage.tsx";
 
 
 const App = () => {
@@ -42,6 +43,9 @@ const App = () => {
                         )}/>
                         <Route path="/createPost" element={(
                             <ProductCreate />
+                        )}/>
+                        <Route path="/products/:id" element={(
+                            <CategoryPage />
                         )}/>
                     </Routes>
                 </div>

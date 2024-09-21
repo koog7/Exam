@@ -1,15 +1,20 @@
 import React, {useEffect} from 'react';
 import ProductCard from "../components/ProductCard.tsx";
-import {useSelector} from "react-redux";
-import {RootState} from "../app/store.ts";
+import {useDispatch, useSelector} from "react-redux";
+import {AppDispatch, RootState} from "../app/store.ts";
+import {getPost} from "./Thunk/ProductSlice.ts";
 
 const Home = () => {
 
     const productData = useSelector((state: RootState) => state.Product.allProducts)
 
+    const dispatch = useDispatch<AppDispatch>();
+
     useEffect(() => {
-        console.log(productData)
-    }, [productData]);
+        dispatch(getPost())
+    }, [dispatch]);
+
+
     return (
         <div style={{
             padding: '50px',
@@ -18,7 +23,7 @@ const Home = () => {
             gap: '30px',
             marginLeft: '50px'
         }}>
-            {productData.map((product) => (
+            {productData.map((product) => product? (
                 <ProductCard
                     key={product._id}
                     _id={product._id}
@@ -26,6 +31,10 @@ const Home = () => {
                     image={product.image}
                     description={product.description}
                 />
+            ): (
+                <div>
+                    <h1>Обьявлений в этой категории нет</h1>
+                </div>
             ))}
         </div>
 

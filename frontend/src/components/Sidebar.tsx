@@ -6,9 +6,9 @@ const Sidebar = () => {
         <div>
             <div style={{display:'flex', flexDirection:'column', width:'200px',backgroundColor:'#525252', gap:'20px', padding:'15px', minHeight:'635px'}}>
                 <NavLink to={'/'} className={'category-s'}>All vehicles</NavLink>
-                <NavLink to={'/'} className={'category-s'}>Cars</NavLink>
-                <NavLink to={'/'} className={'category-s'}>Boats</NavLink>
-                <NavLink to={'/'} className={'category-s'}>Helicopters</NavLink>
+                <NavLink to={'/products/cars'} className={'category-s'}>Cars</NavLink>
+                <NavLink to={'/products/boats'} className={'category-s'}>Boats</NavLink>
+                <NavLink to={'/products/helicopter'} className={'category-s'}>Helicopters</NavLink>
             </div>
         </div>
     );

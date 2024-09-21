@@ -43,6 +43,15 @@ export const getPost = createAsyncThunk<Product[], void,{ state: RootState }>('p
     }
 })
 
+export const getCategoryPost = createAsyncThunk<Product[], string,{ state: RootState }>('product/getCategoryProduct' , async (category) =>{
+    try {
+        const response = await axiosAPI.get(`/products/${category}`);
+        return response.data;
+    }catch (e) {
+        console.error('Error:', e);
+    }
+})
+
 export const postProduct = createAsyncThunk<Product[], ProductPayload,{ state: RootState }>('product/postProduct' , async (productData) =>{
     try {
         const formData = new FormData();
@@ -88,6 +97,18 @@ export const ProductSlice = createSlice({
             state.loader = false;
         });
         builder.addCase(postProduct.rejected, (state: ProductState) => {
+            state.loader = false;
+            state.error = 'error';
+        });
+        builder.addCase(getCategoryPost.pending, (state: ProductState) => {
+            state.loader = true;
+            state.error = null;
+        });
+        builder.addCase(getCategoryPost.fulfilled, (state: ProductState, action) => {
+            state.allProducts = action.payload;
+            state.loader = false;
+        });
+        builder.addCase(getCategoryPost.rejected, (state: ProductState) => {
             state.loader = false;
             state.error = 'error';
         });
