@@ -21,6 +21,21 @@ ProductRouter.get('/' , async (req ,res , next )=>{
     }
 })
 
+ProductRouter.get('/:id' , async (req ,res , next )=>{
+    const {id} = req.params;
+    try {
+        const getAllProduct = await Product.find({category: id});
+
+        if(!getAllProduct){
+            return res.status(400).send({error:'Products not found'})
+        }
+
+        res.send(getAllProduct)
+    }catch (e) {
+        next(e)
+    }
+})
+
 ProductRouter.post('/', imagesUpload.single('image') ,async (req , res , next ) =>{
     const getToken = req.get('Authorization');
 
