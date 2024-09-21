@@ -15,38 +15,44 @@ const OneProduct = () => {
         dispatch(getOnePost(id))
     }, [dispatch , id]);
 
-    useEffect(() => {
-        console.log(productData)
-    }, [productData]);
     return (
-        <Card sx={{ display: 'flex', margin: '20px', border: '1px solid #ccc' }}>
-            <CardMedia
-                component="img"
-                sx={{ width: 450 }}
-                image={`http://localhost:8000/images/${productData.image}`}
-                alt={123}
-            />
-            <CardContent sx={{ flex: '1' }}>
-                <Typography variant="h5" component="div">
-                    {productData.title}
-                </Typography>
-                <Typography variant="body2" color="text.secondary" style={{width:'250px'}}>
-                    {productData.description}
-                </Typography>
-                <Typography variant="h6" color="primary">
-                    Price: ${productData.price}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                    Category: {productData.category}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                    Seller: {productData.userId.displayName}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                    Contact: {productData.userId.phoneNumber}
-                </Typography>
-            </CardContent>
-        </Card>
+        <div>
+            {productData?(
+                <div>
+                    <Card sx={{ display: 'flex', margin: '20px', border: '1px solid #ccc' }}>
+                        <CardMedia
+                            component="img"
+                            sx={{ width: 450 }}
+                            image={`http://localhost:8000/images/${productData.image}`}
+                            alt={productData.title}
+                        />
+                        <CardContent sx={{ flex: '1' }}>
+                            <Typography variant="h5" component="div">
+                                {productData.title}
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary" style={{ width: '250px' }}>
+                                {productData.description}
+                            </Typography>
+                            <Typography variant="h6" color="primary">
+                                Price: ${productData.price}
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary">
+                                Category: {productData.category}
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary">
+                                Seller: {productData.userId?.displayName}
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary">
+                                Contact: {productData.userId?.phoneNumber}
+                            </Typography>
+                        </CardContent>
+                    </Card>
+                </div>
+            ):(
+                <div>No data</div>
+            )}
+        </div>
+
     );
 };
 
