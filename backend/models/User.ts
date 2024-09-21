@@ -16,6 +16,14 @@ const ForumUser = new Schema({
         type: String,
         required: true,
     },
+    displayName:{
+        type: String,
+        required: true,
+    },
+    phoneNumber:{
+        type: String,
+        required: true,
+    },
     token:{
         type: String,
         required: true,
