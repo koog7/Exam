@@ -35,6 +35,7 @@ ProductRouter.get('/:id' , async (req ,res , next )=>{
         next(e)
     }
 })
+
 ProductRouter.get('/oneProduct/:id' , async (req ,res , next )=>{
     const {id} = req.params;
     try {
@@ -45,6 +46,41 @@ ProductRouter.get('/oneProduct/:id' , async (req ,res , next )=>{
         }
 
         res.send(getAllProduct)
+    }catch (e) {
+        next(e)
+    }
+})
+ProductRouter.delete('/oneProduct/:id' , async (req ,res , next )=>{
+    const {id} = req.params;
+
+    const getToken = req.get('Authorization');
+
+    if(!getToken){
+        return res.status(401).send({ error: 'Unauthorized' });
+    }
+
+    try {
+        const [_Bearer , token] = getToken.split(' ')
+
+        const findUser = await User.findOne({ token });
+
+        if (!findUser) {
+            return res.status(401).send({ error: 'User not found' });
+        }
+
+        const product  = await Product.findById(id).populate('userId', 'displayName phoneNumber');
+
+        if(!product ){
+            return res.status(400).send({error:'Products not found'})
+        }
+
+        if (product.userId._id.toString() !== findUser._id.toString()) {
+            return res.status(403).send({ error: 'You are not authorized' });
+        }
+
+
+        await Product.findByIdAndDelete(id);
+        res.send({ message: 'Product deleted successfully' });
     }catch (e) {
         next(e)
     }
