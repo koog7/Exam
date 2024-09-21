@@ -1,5 +1,6 @@
 import React from 'react';
 import {Card, CardActionArea, CardContent, CardMedia, Typography} from "@mui/material";
+import {NavLink} from "react-router-dom";
 
 interface Props{
     _id:string,
@@ -19,7 +20,9 @@ const ProductCard:React.FC<Props> = ({_id, title ,image, description}) => {
                 />
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
-                        {title}
+                        <NavLink to={`/product/${_id}`} className={'title-b'}>
+                            {title}
+                        </NavLink>
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
                         {description}

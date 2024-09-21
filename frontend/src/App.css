@@ -11,3 +11,11 @@
 .category-s:hover{
   text-decoration: underline;
 }
+
+.title-b{
+  color: black;
+  text-decoration: none;
+}
+.title-b:hover{
+  text-decoration: underline;
+}

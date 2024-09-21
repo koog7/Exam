@@ -61,6 +61,7 @@ export const postProduct = createAsyncThunk<Product[], ProductPayload,{ state: R
         formData.append('price', productData.price.toString());
         formData.append('category', productData.category);
 
+        // noinspection JSAnnotator
         const response = await axiosAPI.post(`/products`, formData , {headers: { 'Authorization': `Bearer ${productData.token}` }});
         return response.data;
     }catch (e) {

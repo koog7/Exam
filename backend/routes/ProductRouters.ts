@@ -35,7 +35,20 @@ ProductRouter.get('/:id' , async (req ,res , next )=>{
         next(e)
     }
 })
+ProductRouter.get('/oneProduct/:id' , async (req ,res , next )=>{
+    const {id} = req.params;
+    try {
+        const getAllProduct = await Product.findById(id).populate('userId', 'displayName phoneNumber');
 
+        if(!getAllProduct){
+            return res.status(400).send({error:'Products not found'})
+        }
+
+        res.send(getAllProduct)
+    }catch (e) {
+        next(e)
+    }
+})
 ProductRouter.post('/', imagesUpload.single('image') ,async (req , res , next ) =>{
     const getToken = req.get('Authorization');
 
