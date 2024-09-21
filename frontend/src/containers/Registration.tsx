@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
-import {useDispatch} from "react-redux";
-import {AppDispatch} from "../app/store.ts";
+import {useDispatch, useSelector} from "react-redux";
+import {AppDispatch, RootState} from "../app/store.ts";
 import {useNavigate} from "react-router-dom";
 import {loginUser} from "./Thunk/AuthSlice.ts";
 import {Box, Button, TextField} from "@mui/material";
@@ -10,10 +10,13 @@ const Registration = () => {
     const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
     const [localError , setLocalError] = useState<boolean>(false)
-
+    const typeError = useSelector((state: RootState) => state.User.error)
+    console.log(typeError)
     const [login, setLogin] = useState({
         username: '',
         password: '',
+        displayName: '',
+        phoneNumber: '',
     });
 
     const submitData = async (e: React.FormEvent) => {
@@ -34,8 +37,8 @@ const Registration = () => {
     };
 
     return (
-        <div>
-            <h2 style={{marginLeft: '360px'}}>Sign Up</h2>
+        <div style={{marginLeft: '360px'}}>
+            <h2>Sign Up</h2>
             <Box
                 component="form"
                 sx={{
@@ -43,7 +46,7 @@ const Registration = () => {
                     flexDirection: 'column',
                     alignItems: 'center',
                     width: '300px',
-                    margin: '40px auto',
+                    marginLeft:'-107px',
                     gap: 2,
 
                 }}
@@ -54,6 +57,7 @@ const Registration = () => {
                     label="Username"
                     variant="filled"
                     fullWidth
+                    required={true}
                     value={login.username}
                     onChange={(e) =>
                         setLogin({...login, username: e.target.value})
@@ -75,9 +79,33 @@ const Registration = () => {
                         style: {backgroundColor: 'white'},
                     }}
                 />
+                <TextField
+                    label="Display name"
+                    variant="filled"
+                    fullWidth
+                    value={login.displayName}
+                    onChange={(e) =>
+                        setLogin({...login, displayName: e.target.value})
+                    }
+                    InputProps={{
+                        style: {backgroundColor: 'white'},
+                    }}
+                />
+                <TextField
+                    label="Phone number"
+                    variant="filled"
+                    fullWidth
+                    value={login.phoneNumber}
+                    onChange={(e) =>
+                        setLogin({...login, phoneNumber: e.target.value})
+                    }
+                    InputProps={{
+                        style: {backgroundColor: 'white'},
+                    }}
+                />
                 {localError && (
                     <div>
-                        <p style={{color: 'red'}}>Useranme are already claimed</p>
+                        <p style={{color: 'red'}}>{typeError}</p>
                     </div>
                 )}
                 <Button

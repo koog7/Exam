@@ -35,7 +35,7 @@ const LogIn = () => {
 
     return (
         <div>
-            <h2 style={{marginLeft: '360px'}}>Log in</h2>
+            <h2>Log in</h2>
             <Box
                 component="form"
                 sx={{
