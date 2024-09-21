@@ -12,6 +12,7 @@ import {getPost} from "./containers/Thunk/ProductSlice.ts";
 import ProductCreate from "./containers/ProductCreate.tsx";
 import CategoryPage from "./containers/CategoryPage.tsx";
 import OneProduct from "./containers/OneProduct.tsx";
+import NotFound from "./components/NotFound.tsx";
 
 
 const App = () => {
@@ -51,6 +52,9 @@ const App = () => {
                         )}/>
                         <Route path="/product/byOne/:id" element={(
                             <OneProduct/>
+                        )}/>
+                        <Route path="*" element={(
+                            <NotFound/>
                         )}/>
                     </Routes>
                 </div>

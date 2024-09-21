@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useRef, useState} from 'react';
+import React, {ChangeEvent, useEffect, useRef, useState} from 'react';
 import {Box, Button, TextField} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "../app/store.ts";
@@ -11,8 +11,15 @@ const ProductCreate = () => {
     const [file, setFile] = useState<File | null>(null);
     const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
-
+    const [error , setError] = useState<boolean>(false);
     const userData = useSelector((state: RootState) => state.User.user)
+
+
+    useEffect(() => {
+        if(!userData){
+            navigate('/')
+        }
+    }, [userData]);
 
     const [productData, setProductData] = useState({
         token: userData?.token,
@@ -44,12 +51,20 @@ const ProductCreate = () => {
             category: productData.category,
             token: userData?.token,
         };
+
+        if (productPayload.price < 0) {
+            return;
+        }
         try{
-            await dispatch(postProduct(productPayload))
-            await navigate('/')
-            location.reload()
+            if(productData.title && productData.description && productData.price){
+                await dispatch(postProduct(productPayload))
+                await navigate('/')
+                location.reload()
+            }else{
+                setError(true)
+            }
         }catch (e) {
-            console.log(e)
+            console.error("Ошибка при отправке продукта", e);
         }
     }
 
@@ -98,10 +113,11 @@ const ProductCreate = () => {
                         />
                         <TextField
                             label="Price"
-                            type="text"
+                            type="number"
                             variant="filled"
                             fullWidth
                             value={productData.price}
+                            inputProps={{ min: 0 }}
                             onChange={(e) =>
                                 setProductData({...productData, price: e.target.value})
                             }
@@ -119,6 +135,11 @@ const ProductCreate = () => {
                             </select>
 
                         </div>
+                        {error?(
+                            <div style={{color:'red'}}>Some field are empty</div>
+                        ):(
+                            <></>
+                        )}
                         <Button
                             variant="contained"
                             type={"submit"}
