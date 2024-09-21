@@ -5,9 +5,19 @@ import LogIn from "./containers/LogIn.tsx";
 import Navbar from "./components/Navbar.tsx";
 import Registration from "./containers/Registration.tsx";
 import Sidebar from "./components/Sidebar.tsx";
+import {useDispatch} from "react-redux";
+import {AppDispatch} from "./app/store.ts";
+import {useEffect} from "react";
+import {getPost} from "./containers/Thunk/ProductSlice.ts";
 
 
 const App = () => {
+
+    const dispatch = useDispatch<AppDispatch>();
+
+    useEffect(() => {
+        dispatch(getPost())
+    }, [dispatch]);
 
     return(
         <>

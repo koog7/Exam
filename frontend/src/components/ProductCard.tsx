@@ -1,22 +1,28 @@
 import React from 'react';
 import {Card, CardActionArea, CardContent, CardMedia, Typography} from "@mui/material";
 
-const ProductCard = () => {
+interface Props{
+    _id:string,
+    title:string,
+    description:string,
+    image:string,
+}
+const ProductCard:React.FC<Props> = ({_id, title ,image, description}) => {
     return (
         <Card sx={{ maxWidth: 200 }}>
             <CardActionArea>
                 <CardMedia
                     component="img"
                     height="140"
-                    image="https://via.placeholder.com/150"
+                    image={`http://localhost:8000/images/${image}`}
                     alt="image title"
                 />
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
-                        Title
+                        {title}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                        This is the description text for the card. It gives a brief overview of the content.
+                        {description}
                     </Typography>
                 </CardContent>
             </CardActionArea>
