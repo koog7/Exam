@@ -19,7 +19,7 @@ const ProductCreate = () => {
         title: '',
         description: '',
         price: '',
-        category: '',
+        category: 'cars',
     });
 
 
