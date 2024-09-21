@@ -11,7 +11,7 @@ const Registration = () => {
     const navigate = useNavigate();
     const [localError , setLocalError] = useState<boolean>(false)
     const typeError = useSelector((state: RootState) => state.User.error)
-    console.log(typeError)
+
     const [login, setLogin] = useState({
         username: '',
         password: '',
