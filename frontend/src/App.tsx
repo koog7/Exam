@@ -4,6 +4,8 @@ import {Route, Routes} from "react-router-dom";
 import LogIn from "./containers/LogIn.tsx";
 import Navbar from "./components/Navbar.tsx";
 import Registration from "./containers/Registration.tsx";
+import Sidebar from "./components/Sidebar.tsx";
+
 
 const App = () => {
 
@@ -12,17 +14,24 @@ const App = () => {
             <div>
                 <Navbar />
             </div>
-            <Routes>
-                <Route path="/" element={(
-                    <Home />
-                )}/>
-                <Route path="/login" element={(
-                    <LogIn />
-                )}/>
-                <Route path="/signup" element={(
-                    <Registration />
-                )}/>
-            </Routes>
+            <div style={{display:'flex'}}>
+                <div>
+                    <Sidebar />
+                </div>
+                <div>
+                    <Routes>
+                        <Route path="/" element={(
+                            <Home />
+                        )}/>
+                        <Route path="/login" element={(
+                            <LogIn />
+                        )}/>
+                        <Route path="/signup" element={(
+                            <Registration />
+                        )}/>
+                    </Routes>
+                </div>
+            </div>
         </>
     )
 

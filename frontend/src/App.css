@@ -3,3 +3,11 @@
   margin: 0 auto;
 }
 
+.category-s{
+  color: white;
+  text-decoration: none;
+}
+
+.category-s:hover{
+  text-decoration: underline;
+}
