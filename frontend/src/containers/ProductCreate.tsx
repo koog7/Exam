@@ -56,7 +56,7 @@ const ProductCreate = () => {
             return;
         }
         try{
-            if(productData.title && productData.description && productData.price){
+            if(productData.title && productData.description && productData.price && file){
                 await dispatch(postProduct(productPayload))
                 await navigate('/')
                 location.reload()
