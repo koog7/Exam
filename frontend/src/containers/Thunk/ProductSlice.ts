@@ -12,6 +12,15 @@ interface Product{
     image: string,
 }
 
+interface ProductPayload {
+    title: string;
+    photo: File;
+    description: string;
+    price: number;
+    category: string;
+    token: string;
+}
+
 interface ProductState{
     allProducts: Product[];
     loader: boolean;
@@ -30,7 +39,23 @@ export const getPost = createAsyncThunk<Product[], void,{ state: RootState }>('p
         const response = await axiosAPI.get(`/products`);
         return response.data;
     }catch (e) {
-        console.error('Error:', error);
+        console.error('Error:', e);
+    }
+})
+
+export const postProduct = createAsyncThunk<Product[], ProductPayload,{ state: RootState }>('product/postProduct' , async (productData) =>{
+    try {
+        const formData = new FormData();
+        formData.append('title', productData.title);
+        formData.append('image', productData.photo);
+        formData.append('description', productData.description);
+        formData.append('price', productData.price.toString());
+        formData.append('category', productData.category);
+
+        const response = await axiosAPI.post(`/products`, formData , {headers: { 'Authorization': `Bearer ${productData.token}` }});
+        return response.data;
+    }catch (e) {
+        console.error('Error:', e);
     }
 })
 
@@ -52,6 +77,17 @@ export const ProductSlice = createSlice({
             state.loader = false;
         });
         builder.addCase(getPost.rejected, (state: ProductState) => {
+            state.loader = false;
+            state.error = 'error';
+        });
+        builder.addCase(postProduct.pending, (state: ProductState) => {
+            state.loader = true;
+            state.error = null;
+        });
+        builder.addCase(postProduct.fulfilled, (state: ProductState) => {
+            state.loader = false;
+        });
+        builder.addCase(postProduct.rejected, (state: ProductState) => {
             state.loader = false;
             state.error = 'error';
         });

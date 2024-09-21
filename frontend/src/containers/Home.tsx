@@ -11,7 +11,13 @@ const Home = () => {
         console.log(productData)
     }, [productData]);
     return (
-        <div style={{padding:'50px', display:'flex', gap:'30px', marginLeft:'50px'}}>
+        <div style={{
+            padding: '50px',
+            display: 'grid',
+            gridTemplateColumns: 'repeat(3, 1fr)',
+            gap: '30px',
+            marginLeft: '50px'
+        }}>
             {productData.map((product) => (
                 <ProductCard
                     key={product._id}
@@ -22,6 +28,7 @@ const Home = () => {
                 />
             ))}
         </div>
+
     );
 };
 

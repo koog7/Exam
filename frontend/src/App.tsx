@@ -9,6 +9,7 @@ import {useDispatch} from "react-redux";
 import {AppDispatch} from "./app/store.ts";
 import {useEffect} from "react";
 import {getPost} from "./containers/Thunk/ProductSlice.ts";
+import ProductCreate from "./containers/ProductCreate.tsx";
 
 
 const App = () => {
@@ -38,6 +39,9 @@ const App = () => {
                         )}/>
                         <Route path="/signup" element={(
                             <Registration />
+                        )}/>
+                        <Route path="/createPost" element={(
+                            <ProductCreate />
                         )}/>
                     </Routes>
                 </div>
