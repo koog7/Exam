@@ -5,8 +5,8 @@ import LogIn from "./containers/LogIn.tsx";
 import Navbar from "./components/Navbar.tsx";
 import Registration from "./containers/Registration.tsx";
 import Sidebar from "./components/Sidebar.tsx";
-import {useDispatch} from "react-redux";
-import {AppDispatch} from "./app/store.ts";
+import {useDispatch, useSelector} from "react-redux";
+import {AppDispatch, RootState} from "./app/store.ts";
 import {useEffect} from "react";
 import {getPost} from "./containers/Thunk/ProductSlice.ts";
 import ProductCreate from "./containers/ProductCreate.tsx";
@@ -16,6 +16,7 @@ import OneProduct from "./containers/OneProduct.tsx";
 
 const App = () => {
 
+    const loader = useSelector((state: RootState) => state.Product.loader)
     const dispatch = useDispatch<AppDispatch>();
 
     useEffect(() => {
@@ -27,31 +28,34 @@ const App = () => {
             <div>
                 <Navbar />
             </div>
-            <div style={{display:'flex'}}>
+            <div style={{display: 'flex'}}>
                 <div>
-                    <Sidebar />
+                    <Sidebar/>
                 </div>
                 <div>
                     <Routes>
                         <Route path="/" element={(
-                            <Home />
+                            <Home/>
                         )}/>
                         <Route path="/login" element={(
-                            <LogIn />
+                            <LogIn/>
                         )}/>
                         <Route path="/signup" element={(
-                            <Registration />
+                            <Registration/>
                         )}/>
                         <Route path="/createPost" element={(
-                            <ProductCreate />
+                            <ProductCreate/>
                         )}/>
                         <Route path="/products/:id" element={(
-                            <CategoryPage />
+                            <CategoryPage/>
                         )}/>
                         <Route path="/product/byOne/:id" element={(
-                            <OneProduct />
+                            <OneProduct/>
                         )}/>
                     </Routes>
+                </div>
+                <div id="loader-container" style={{display: loader ? 'block' : 'none'}}>
+                    <div className="loader"></div>
                 </div>
             </div>
         </>
