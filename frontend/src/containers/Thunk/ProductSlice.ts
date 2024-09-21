@@ -66,6 +66,14 @@ export const getOnePost = createAsyncThunk<OneProduct[], string,{ state: RootSta
         console.error('Error:', e);
     }
 })
+
+export const deletePost = createAsyncThunk<void, {id:string, token:string},{ state: RootState }>('product/deleteProduct' , async ({id , token}) =>{
+    try {
+        await axiosAPI.delete(`/products/oneProduct/${id}`, {headers: { 'Authorization': `Bearer ${token}` }});
+    }catch (e) {
+        console.error('Error:', e);
+    }
+})
 export const getCategoryPost = createAsyncThunk<Product[], string,{ state: RootState }>('product/getCategoryProduct' , async (category) =>{
     try {
         const response = await axiosAPI.get(`/products/${category}`);
@@ -84,7 +92,6 @@ export const postProduct = createAsyncThunk<Product[], ProductPayload,{ state: R
         formData.append('price', productData.price.toString());
         formData.append('category', productData.category);
 
-        // noinspection JSAnnotator
         const response = await axiosAPI.post(`/products`, formData , {headers: { 'Authorization': `Bearer ${productData.token}` }});
         return response.data;
     }catch (e) {
@@ -109,9 +116,9 @@ export const ProductSlice = createSlice({
             state.allProducts = action.payload;
             state.loader = false;
         });
-        builder.addCase(getPost.rejected, (state: ProductState) => {
+        builder.addCase(getPost.rejected, (state: ProductState , action) => {
             state.loader = false;
-            state.error = 'error';
+            state.error = action.payload as string;
         });
         builder.addCase(postProduct.pending, (state: ProductState) => {
             state.loader = true;
@@ -120,9 +127,9 @@ export const ProductSlice = createSlice({
         builder.addCase(postProduct.fulfilled, (state: ProductState) => {
             state.loader = false;
         });
-        builder.addCase(postProduct.rejected, (state: ProductState) => {
+        builder.addCase(postProduct.rejected, (state: ProductState, action) => {
             state.loader = false;
-            state.error = 'error';
+            state.error = action.payload as string;
         });
         builder.addCase(getCategoryPost.pending, (state: ProductState) => {
             state.loader = true;
@@ -132,9 +139,9 @@ export const ProductSlice = createSlice({
             state.allProducts = action.payload;
             state.loader = false;
         });
-        builder.addCase(getCategoryPost.rejected, (state: ProductState) => {
+        builder.addCase(getCategoryPost.rejected, (state: ProductState, action) => {
             state.loader = false;
-            state.error = 'error';
+            state.error = action.payload as string;
         });
         builder.addCase(getOnePost.pending, (state: ProductState) => {
             state.loader = true;
@@ -144,9 +151,20 @@ export const ProductSlice = createSlice({
             state.oneProduct = action.payload;
             state.loader = false;
         });
-        builder.addCase(getOnePost.rejected, (state: ProductState) => {
+        builder.addCase(getOnePost.rejected, (state: ProductState, action) => {
             state.loader = false;
-            state.error = 'error';
+            state.error = action.payload as string;
+        });
+        builder.addCase(deletePost.pending, (state: ProductState) => {
+            state.loader = true;
+            state.error = null;
+        });
+        builder.addCase(deletePost.fulfilled, (state: ProductState) => {
+            state.loader = false;
+        });
+        builder.addCase(deletePost.rejected, (state: ProductState, action) => {
+            state.loader = false;
+            state.error = action.payload as string;
         });
     }
 })

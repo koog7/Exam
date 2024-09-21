@@ -2,12 +2,13 @@ import React, {useEffect} from 'react';
 import {Button, Card, CardContent, CardMedia, Typography} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "../app/store.ts";
-import {useParams} from "react-router-dom";
-import {getOnePost} from "./Thunk/ProductSlice.ts";
+import {useNavigate, useParams} from "react-router-dom";
+import {deletePost, getOnePost} from "./Thunk/ProductSlice.ts";
 
 const OneProduct = () => {
     const userData = useSelector((state: RootState) => state.User.user)
     const productData = useSelector((state: RootState) => state.Product.oneProduct)
+    const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>();
     const {id} = useParams();
 
@@ -16,6 +17,14 @@ const OneProduct = () => {
     }, [dispatch , id]);
 
     const isOwner = userData && productData && productData.userId && userData._id === productData.userId._id;
+
+    const deleteUserPost = async () => {
+        if(id && userData && userData.token){
+            await dispatch(deletePost({id: id , token: userData.token}))
+            navigate('/')
+            location.reload()
+        }
+    }
 
     return (
         <div>
@@ -49,7 +58,7 @@ const OneProduct = () => {
                             </Typography>
 
                             {isOwner ? (
-                                <Button variant="contained">Delete post</Button>
+                                <Button variant="contained" onClick={deleteUserPost}>Delete post</Button>
                             ) : <></>}
 
                         </CardContent>
