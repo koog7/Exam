@@ -11,6 +11,7 @@ import {useEffect} from "react";
 import {getPost} from "./containers/Thunk/ProductSlice.ts";
 import ProductCreate from "./containers/ProductCreate.tsx";
 import CategoryPage from "./containers/CategoryPage.tsx";
+import OneProduct from "./containers/OneProduct.tsx";
 
 
 const App = () => {
@@ -46,6 +47,9 @@ const App = () => {
                         )}/>
                         <Route path="/products/:id" element={(
                             <CategoryPage />
+                        )}/>
+                        <Route path="/product/byOne/:id" element={(
+                            <OneProduct />
                         )}/>
                     </Routes>
                 </div>

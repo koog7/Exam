@@ -20,7 +20,7 @@ const ProductCard:React.FC<Props> = ({_id, title ,image, description}) => {
                 />
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
-                        <NavLink to={`/product/${_id}`} className={'title-b'}>
+                        <NavLink to={`/product/byOne/${_id}`} className={'title-b'}>
                             {title}
                         </NavLink>
                     </Typography>

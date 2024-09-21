@@ -12,6 +12,20 @@ interface Product{
     image: string,
 }
 
+interface OneProduct{
+    _id: string,
+    userId: {
+        _id: string,
+        displayName: string,
+        phoneNumber: string,
+    },
+    title: string,
+    category: string,
+    description: string,
+    price: string,
+    image: string,
+}
+
 interface ProductPayload {
     title: string;
     photo: File;
@@ -23,12 +37,14 @@ interface ProductPayload {
 
 interface ProductState{
     allProducts: Product[];
+    oneProduct: OneProduct[]
     loader: boolean;
     error: string | null;
 }
 
 const initialState: ProductState = {
     allProducts: [],
+    oneProduct: [],
     loader: false,
     error: null,
 };
@@ -42,7 +58,14 @@ export const getPost = createAsyncThunk<Product[], void,{ state: RootState }>('p
         console.error('Error:', e);
     }
 })
-
+export const getOnePost = createAsyncThunk<OneProduct[], string,{ state: RootState }>('product/getOneProduct' , async (id) =>{
+    try {
+        const response = await axiosAPI.get(`/products/oneProduct/${id}`);
+        return response.data;
+    }catch (e) {
+        console.error('Error:', e);
+    }
+})
 export const getCategoryPost = createAsyncThunk<Product[], string,{ state: RootState }>('product/getCategoryProduct' , async (category) =>{
     try {
         const response = await axiosAPI.get(`/products/${category}`);
@@ -110,6 +133,18 @@ export const ProductSlice = createSlice({
             state.loader = false;
         });
         builder.addCase(getCategoryPost.rejected, (state: ProductState) => {
+            state.loader = false;
+            state.error = 'error';
+        });
+        builder.addCase(getOnePost.pending, (state: ProductState) => {
+            state.loader = true;
+            state.error = null;
+        });
+        builder.addCase(getOnePost.fulfilled, (state: ProductState, action) => {
+            state.oneProduct = action.payload;
+            state.loader = false;
+        });
+        builder.addCase(getOnePost.rejected, (state: ProductState) => {
             state.loader = false;
             state.error = 'error';
         });
